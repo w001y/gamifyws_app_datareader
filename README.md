@@ -2,8 +2,9 @@
 
     <div class="row">
         <div class="span3">
-            <h4>Gamify.WS Data Reader</h4>
             <img src="http://gamify.ws/img/logo.png" />
+            <h4>Gamify.WS Data Reader</h4>
+
         </div>
         <div class="span3">
             <h6>What's This?</h6>
