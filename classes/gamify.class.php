@@ -15,11 +15,11 @@ session_start();
 
 class Gamify {
 
-    protected $api_url		= "http://alpha.gamify.ws";             // Have a play with the alpha API first.
-    public $namespace 	    = "salt_testing";                           // Put your namespace in here
-    public $api_key 		= "f7619f44aae140664a9922e738b30bb6";	                    // Don't tell anyone your API key or secret.
-    protected $api_secret	= "fcea389c421db29f547cafa00e135c33";	                // Don't tell anyone your API key or secret.
-    public $salt;                     // Request a new salt using request_salt
+    protected $api_url		= "http://alpha.gamify.ws";         // Have a play with the alpha API first.
+    public $namespace 	    = "NS";                             // Put your namespace in here
+    public $api_key 		= "API_KEY";	                    // Don't tell anyone your API key or secret.
+    protected $api_secret	= "API_SECRET";	                    // Don't tell anyone your API key or secret.
+    public $salt;                                               // Request a new salt using request_salt
 
 
     function api($method, $params)
