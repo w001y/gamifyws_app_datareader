@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 /**
  * GAMIFY.WS
@@ -15,16 +16,26 @@
 class Gamify {
 
     protected $api_url		= "http://alpha.gamify.ws";             // Have a play with the alpha API first.
-    public $namespace 	    = "gamifyws";                           // Put your namespace in here
-    public $api_key 		= "YOUR_API_KEY";	                    // Don't tell anyone your API key or secret.
-    protected $api_secret	= "YOUR_API_SECRET";	                // Don't tell anyone your API key or secret.
-    public $salt			= "REQUEST_A_SALT";                     // Request a new salt using request_salt
+    public $namespace 	    = "salt_testing";                           // Put your namespace in here
+    public $api_key 		= "f7619f44aae140664a9922e738b30bb6";	                    // Don't tell anyone your API key or secret.
+    protected $api_secret	= "fcea389c421db29f547cafa00e135c33";	                // Don't tell anyone your API key or secret.
+    public $salt;                     // Request a new salt using request_salt
 
 
     function api($method, $params)
     {
+
+        // No salt set? Grab it and set it
+        if((!isset($this->salt)) || ($this->salt == ""))
+        {
+            $this->set_salt_session();
+        }
+
+
         $params['ns'] 	    = $this->namespace;
         $params['method'] 	= $method;
+        $params['token'] 	= $this->get_token($this->salt);
+
         return $this->api_send($this->api_url, $params);
     }
 
@@ -84,5 +95,28 @@ class Gamify {
     {
         return $this->api_key;
     }
+
+    private function set_salt_session()
+    {
+        $params['method']   = 'request_salt';
+        $params['ns'] 	    = $this->namespace;
+        $params['api_key'] 	= $this->api_key;
+
+        $reply_array = json_decode($this->api_send($this->api_url, $params));
+
+
+        if(isset($reply_array->salt) && ($reply_array->salt != ""))
+        {
+            $this->salt = $reply_array->salt;
+            $_SESSION['salt'] = $this->salt; // In case you'd like to use it in a session
+        }
+        else
+        {
+            echo 'Oops - gamify.class.php issue - ensure your $namespace, $api_key and $api_secret are set.';
+            exit;
+        }
+
+    }
+
 
 }
